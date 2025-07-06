@@ -46,6 +46,46 @@ class Token(BaseModel):
 def read_root():
     return {"message": "FastAPI Auth Demo Backend", "docs": "/docs"}
 
+@app.post("/init-db")
+def initialize_database(db: Session = Depends(get_db)):
+    """Initialize database with sample users for testing."""
+    sample_users = [
+        {"username": "admin", "full_name": "Administrator", "password": "admin123"},
+        {"username": "john_doe", "full_name": "John Doe", "password": "password123"},
+        {"username": "jane_smith", "full_name": "Jane Smith", "password": "password123"},
+        {"username": "demo_user", "full_name": "Demo User", "password": "demo123"}
+    ]
+    
+    created_users = []
+    for user_data in sample_users:
+        # Check if user already exists
+        existing_user = db.query(DBUser).filter(DBUser.username == user_data["username"]).first()
+        if existing_user:
+            continue
+        
+        # Create new user
+        hashed_password = get_password_hash(user_data["password"])
+        new_user = DBUser(
+            username=user_data["username"],
+            full_name=user_data["full_name"],
+            hashed_password=hashed_password
+        )
+        db.add(new_user)
+        created_users.append(user_data["username"])
+    
+    db.commit()
+    
+    return {
+        "message": "Database initialized successfully!",
+        "created_users": created_users,
+        "sample_credentials": [
+            {"username": "admin", "password": "admin123", "full_name": "Administrator"},
+            {"username": "john_doe", "password": "password123", "full_name": "John Doe"},
+            {"username": "jane_smith", "password": "password123", "full_name": "Jane Smith"},
+            {"username": "demo_user", "password": "demo123", "full_name": "Demo User"}
+        ]
+    }
+
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
 
