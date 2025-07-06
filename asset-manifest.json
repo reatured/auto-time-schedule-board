@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/auto-time-schedule-board/static/css/main.dedfa6fd.css",
+    "main.js": "/auto-time-schedule-board/static/js/main.0a1db405.js",
+    "static/js/488.cccd0e31.chunk.js": "/auto-time-schedule-board/static/js/488.cccd0e31.chunk.js",
+    "service-worker.js": "/auto-time-schedule-board/service-worker.js",
+    "index.html": "/auto-time-schedule-board/index.html",
+    "main.dedfa6fd.css.map": "/auto-time-schedule-board/static/css/main.dedfa6fd.css.map",
+    "main.0a1db405.js.map": "/auto-time-schedule-board/static/js/main.0a1db405.js.map",
+    "488.cccd0e31.chunk.js.map": "/auto-time-schedule-board/static/js/488.cccd0e31.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.dedfa6fd.css",
+    "static/js/main.0a1db405.js"
+  ]
+}
