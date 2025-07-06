@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import './App.css';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+// API URL configuration for different environments
+const API_URL = process.env.REACT_APP_API_URL || 
+  (window.location.hostname === 'localhost' ? 'http://localhost:8000' : 'https://your-railway-backend-url.railway.app');
 
 function App() {
   const [mode, setMode] = useState('login'); // 'login' or 'signup'
@@ -76,6 +78,9 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h2>FastAPI Auth Demo</h2>
+        <p style={{ fontSize: '0.8rem', marginBottom: '20px', opacity: 0.7 }}>
+          Backend: {API_URL}
+        </p>
         {user ? (
           <div>
             <p>Welcome, <b>{user.full_name || user.username}</b>!</p>
