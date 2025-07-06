@@ -4,6 +4,9 @@ import './App.css';
 // API URL configuration for Railway deployment
 const API_URL = 'https://web-production-02aca.up.railway.app';
 
+// Add a comment to force cache refresh
+// Updated: 2025-01-07 - Fixed API URL
+
 function App() {
   const [mode, setMode] = useState('login'); // 'login' or 'signup'
   const [username, setUsername] = useState('');
