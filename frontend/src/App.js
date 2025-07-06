@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
 // API URL configuration for Railway deployment
@@ -16,11 +16,22 @@ function App() {
   const [user, setUser] = useState(null);
   const [error, setError] = useState('');
 
+  // Debug: Log API URL on component mount
+  useEffect(() => {
+    console.log('App mounted - API_URL:', API_URL);
+    console.log('Current window location:', window.location.href);
+  }, []);
+
   const handleSignup = async (e) => {
     e.preventDefault();
     setError('');
+    
+    // Debug: Log the actual URL being called
+    const signupUrl = `${API_URL}/signup`;
+    console.log('Calling signup URL:', signupUrl);
+    
     try {
-      const res = await fetch(`${API_URL}/signup`, {
+      const res = await fetch(signupUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password, full_name: fullName }),
@@ -39,8 +50,13 @@ function App() {
   const handleLogin = async (e) => {
     e.preventDefault();
     setError('');
+    
+    // Debug: Log the actual URL being called
+    const loginUrl = `${API_URL}/login`;
+    console.log('Calling login URL:', loginUrl);
+    
     try {
-      const res = await fetch(`${API_URL}/login`, {
+      const res = await fetch(loginUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams({ username, password }),
