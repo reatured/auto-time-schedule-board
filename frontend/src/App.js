@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './App.css';
 
 // API URL configuration for Railway deployment
-const API_URL = process.env.REACT_APP_API_URL || 'https://web-production-02aca.up.railway.app';
+const API_URL = 'https://web-production-02aca.up.railway.app';
 
 function App() {
   const [mode, setMode] = useState('login'); // 'login' or 'signup'
