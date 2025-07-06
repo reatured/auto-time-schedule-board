@@ -6,6 +6,7 @@ const API_URL = 'https://web-production-02aca.up.railway.app';
 
 // Add a comment to force cache refresh
 // Updated: 2025-01-07 - Fixed API URL
+// Force deployment: 2025-01-07 12:00
 
 function App() {
   const [mode, setMode] = useState('login'); // 'login' or 'signup'
