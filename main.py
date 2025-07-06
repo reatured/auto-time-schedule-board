@@ -4,9 +4,12 @@ from fastapi.middleware.cors import CORSMiddleware
 from passlib.context import CryptContext
 from jose import JWTError, jwt
 from pydantic import BaseModel
-from typing import Optional, Dict
+from typing import Optional
 from datetime import datetime, timedelta
+from sqlalchemy.orm import Session
 import os
+
+from database import get_db, User as DBUser
 
 SECRET_KEY = os.environ.get("SECRET_KEY", "dev-secret-key")
 ALGORITHM = "HS256"
@@ -23,18 +26,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# In-memory user storage for demo
-fake_users_db: Dict[str, Dict] = {}
-
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login")
 
 class User(BaseModel):
     username: str
     full_name: Optional[str] = None
-
-class UserInDB(User):
-    hashed_password: str
 
 class UserCreate(BaseModel):
     username: str
@@ -61,40 +58,45 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     to_encode.update({"exp": expire})
     return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
-def get_user(username: str) -> Optional[UserInDB]:
-    user = fake_users_db.get(username)
-    if user:
-        return UserInDB(**user)
-    return None
+def get_user(db: Session, username: str):
+    return db.query(DBUser).filter(DBUser.username == username).first()
 
-def authenticate_user(username: str, password: str):
-    user = get_user(username)
+def authenticate_user(db: Session, username: str, password: str):
+    user = get_user(db, username)
     if not user or not verify_password(password, user.hashed_password):
         return False
     return user
 
 @app.post("/signup", response_model=User)
-def signup(user: UserCreate):
-    if user.username in fake_users_db:
+def signup(user: UserCreate, db: Session = Depends(get_db)):
+    # Check if user already exists
+    db_user = get_user(db, user.username)
+    if db_user:
         raise HTTPException(status_code=400, detail="Username already registered")
+    
+    # Create new user
     hashed_password = get_password_hash(user.password)
-    fake_users_db[user.username] = {
-        "username": user.username,
-        "full_name": user.full_name,
-        "hashed_password": hashed_password,
-    }
-    return User(username=user.username, full_name=user.full_name)
+    db_user = DBUser(
+        username=user.username,
+        full_name=user.full_name,
+        hashed_password=hashed_password
+    )
+    db.add(db_user)
+    db.commit()
+    db.refresh(db_user)
+    
+    return User(username=db_user.username, full_name=db_user.full_name)
 
 @app.post("/login", response_model=Token)
-def login(form_data: OAuth2PasswordRequestForm = Depends()):
-    user = authenticate_user(form_data.username, form_data.password)
+def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
+    user = authenticate_user(db, form_data.username, form_data.password)
     if not user:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Incorrect username or password")
     access_token = create_access_token(data={"sub": user.username})
     return {"access_token": access_token, "token_type": "bearer"}
 
 @app.get("/me", response_model=User)
-def read_users_me(token: str = Depends(oauth2_scheme)):
+def read_users_me(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -107,7 +109,8 @@ def read_users_me(token: str = Depends(oauth2_scheme)):
             raise credentials_exception
     except JWTError:
         raise credentials_exception
-    user = get_user(username)
+    
+    user = get_user(db, username)
     if user is None:
         raise credentials_exception
-    return user 
+    return User(username=user.username, full_name=user.full_name) 

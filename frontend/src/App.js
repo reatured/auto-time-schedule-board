@@ -3,7 +3,7 @@ import './App.css';
 
 // API URL configuration for different environments
 const API_URL = process.env.REACT_APP_API_URL || 
-  (window.location.hostname === 'localhost' ? 'http://localhost:8000' : 'https://your-railway-backend-url.railway.app');
+  (window.location.hostname === 'localhost' ? 'http://localhost:8000' : 'web-production-02aca.up.railway.app');
 
 function App() {
   const [mode, setMode] = useState('login'); // 'login' or 'signup'

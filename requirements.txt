@@ -3,4 +3,7 @@ uvicorn
 python-dotenv
 passlib[bcrypt]
 python-jose[cryptography]
-python-multipart 
+python-multipart
+sqlalchemy
+psycopg2-binary
+alembic 
