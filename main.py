@@ -170,7 +170,7 @@ async def call_perplexity_api(payload: PerplexityRequest):
         "Content-Type": "application/json"
     }
     data = {
-        "model": "sonar-mini",
+        "model": "sonar",
         "messages": [
             {"role": "system", "content": payload.system_input},
             {"role": "user", "content": payload.user_input}
