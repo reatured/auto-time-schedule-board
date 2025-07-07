@@ -8,12 +8,14 @@ from typing import Optional
 from datetime import datetime, timedelta
 from sqlalchemy.orm import Session
 import os
+import httpx
 
 from database import get_db, User as DBUser
 
 SECRET_KEY = os.environ.get("SECRET_KEY", "dev-secret-key")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
+PERPLEXITY_API_KEY = os.environ.get("PERPLEXITY_API_KEY", "YOUR_PERPLEXITY_API_KEY")
 
 app = FastAPI()
 
@@ -41,6 +43,10 @@ class UserCreate(BaseModel):
 class Token(BaseModel):
     access_token: str
     token_type: str
+
+class PerplexityRequest(BaseModel):
+    system_input: str
+    user_input: str
 
 @app.get("/")
 def read_root():
@@ -153,4 +159,24 @@ def read_users_me(token: str = Depends(oauth2_scheme), db: Session = Depends(get
     user = get_user(db, username)
     if user is None:
         raise credentials_exception
-    return User(username=user.username, full_name=user.full_name) 
+    return User(username=user.username, full_name=user.full_name)
+
+@app.post("/perplexity")
+async def call_perplexity_api(payload: PerplexityRequest):
+    print(PERPLEXITY_API_KEY)
+    url = "https://api.perplexity.ai/chat/completions"
+    headers = {
+        "Authorization": f"Bearer {PERPLEXITY_API_KEY}",
+        "Content-Type": "application/json"
+    }
+    data = {
+        "model": "sonar-mini",
+        "messages": [
+            {"role": "system", "content": payload.system_input},
+            {"role": "user", "content": payload.user_input}
+        ]
+    }
+    async with httpx.AsyncClient() as client:
+        response = await client.post(url, headers=headers, json=data)
+        response.raise_for_status()
+        return response.json() 
