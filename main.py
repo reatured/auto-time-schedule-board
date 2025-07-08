@@ -169,13 +169,14 @@ async def call_perplexity_api(payload: PerplexityRequest):
         "Content-Type": "application/json"
     }
     data = {
-        "model": "sonar-mini",
+        "model": "sonar",
         "messages": [
             {"role": "system", "content": payload.system_input},
             {"role": "user", "content": payload.user_input}
         ]
-    }
-    async with httpx.AsyncClient() as client:
+    } 
+    async with httpx.AsyncClient(timeout=30.0) as client:   
         response = await client.post(url, headers=headers, json=data)
+        print(response)
         response.raise_for_status()
         return response.json() 
