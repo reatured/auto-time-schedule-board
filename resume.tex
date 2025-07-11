@@ -1,0 +1,167 @@
+\documentclass[lettersized,9pt]{article}
+\usepackage{latexsym}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage[margin=0.75in]{geometry}
+\usepackage{array}
+
+\usepackage[scaled]{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+
+\hypersetup{
+  colorlinks=true,
+  urlcolor=blue,
+  linkcolor=black
+}
+
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\setlist[itemize]{leftmargin=*, itemsep=2pt, topsep=2pt, parsep=0pt, partopsep=0pt}
+
+\newcommand{\header}[1]{\textbf{\normalsize #1}\vspace{-2pt}}
+\newcommand{\subheader}[1]{\textbf{\small #1}}
+
+\begin{document}
+
+\fontsize{7.5pt}{9pt}\selectfont
+
+\begin{center}
+  {\Large \textbf{Lingyi Zhou}} \\[4pt]
+  \makebox[\textwidth]{%
+    \begin{tabular}{>{\centering\arraybackslash}p{0.32\textwidth} >{\centering\arraybackslash}p{0.32\textwidth} >{\centering\arraybackslash}p{0.32\textwidth}}
+      Seattle, WA & \href{mailto:zeroonelatte@gmail.com}{zeroonelatte@gmail.com} & 646-220-9597 \\
+      \href{https://www.linkedin.com/in/lingyizhou/}{linkedin.com/in/lingyizhou} & \href{https://lingyizhou.com}{lingyizhou.com} & \href{https://github.com/reatured}{github.com/reatured} \\
+    \end{tabular}}
+\end{center}
+
+\header{Professional Summary}
+
+Backend-Focused Full Stack Engineer experienced in building scalable backend systems and cloud-deployed, data-driven apps using FastAPI, PostgreSQL, and React. Built full-cycle tools like a task manager and schedule builder that process structured inputs, automate planning, and cache results for performance. Passionate about developing services and pipelines that power insights at scale and collaborating across teams to ship products.
+
+\header{Technical Skills}
+
+\begin{itemize}
+  \item \textbf{Programming \& Scripting:} C\#, .NET, C++, Python, JavaScript, TypeScript, Golang, HTML5, CSS3, Bash
+  \item \textbf{Frontend:} React, Next.js, Redux, Tailwind, Responsive UI Design
+  \item \textbf{Backend \& APIs:} FastAPI, Node.js, Express, RESTful APIs, PostgreSQL, Supabase, Firebase
+  \item \textbf{Data \& Cloud:} Railway, AWS, CI/CD, GitHub Actions, Vercel, Environment Config, Data Caching, API Logging, Azure, SQL
+  \item \textbf{Tools \& Design:} Git, Figma, Adobe Creative Suite (Photoshop, Illustrator, InDesign)
+  \item \textbf{3D \& Interactive Systems:} Unity3D, Unreal Engine, Blender, Maya, Cinema4D, Fusion 360, GLSL, HLSL
+\end{itemize}
+
+\header{Professional Experience}
+
+\begingroup
+\setlength{\baselineskip}{7.5pt}
+\renewcommand{\arraystretch}{0.2}
+
+\begin{tabular}{|p{0.08\textwidth}|p{0.92\textwidth}|}\hline
+\textit{Feb 2025 -- Present} &
+\parbox[t]{\linewidth}{%
+  \textbf{Game Developer (Contractor)} \dotfill Urban System Lab, New York University\\
+  \textit{An Education Game Project on Environmental Sustainability}
+  \begin{itemize}[noitemsep,topsep=0pt,leftmargin=1em]
+    \item Designed core mechanics and gameplay flow for a mobile educational game on environmental sustainability
+    \item Developing 3D assets and implementing interactive systems using Unity to support research-driven engagement
+  \end{itemize}\vspace{2pt}%
+}\\\hline
+
+\textit{Aug 2023 -- Aug 2024} &
+\parbox[t]{\linewidth}{%
+  \textbf{Software Engineer} \dotfill Moviebill / Really AR, Burbank, CA\\
+  \textit{AR marketing company for Regal Cinema}
+  \begin{itemize}[noitemsep,topsep=0pt,leftmargin=1em]
+    \item Built backend systems for login, session tracking, and gameplay analytics to support 20K+ users
+    \item Developed Unity Editor tools that cut level setup time by 60\%
+    \item Created AR filters for Snapchat and TikTok for Disney campaigns like The Marvels
+  \end{itemize}\vspace{2pt}%
+}\\\hline
+
+\textit{May 2022 -- Aug 2022} &
+\parbox[t]{\linewidth}{%
+  \textbf{Software Engineer} \dotfill Snap Inc., Mountain View, CA\\
+  \textit{Makers of Snapchat, Spectacles, and Lens Studio}
+  \begin{itemize}[noitemsep,topsep=0pt,leftmargin=1em]
+    \item Prototyped AR drawing with real-time hand tracking and procedural mesh
+    \item Authored official documentation to reduce creator onboarding time by 80\%
+    \item Developed official mesh asset compatible with Spectacles
+    \item AR demo scenes reached 200K+ plays across devices
+  \end{itemize}\vspace{2pt}%
+}\\\hline
+
+\textit{June 2025 -- Present} &
+\parbox[t]{\linewidth}{%
+  \textbf{Full-Stack Developer (Part-Time)} \dotfill James Hardware\\
+  \textit{Ecommerce Platform}
+  \begin{itemize}[noitemsep,topsep=0pt,leftmargin=1em]
+    \item Built FastAPI + React lead targeting app using Google Maps and OpenAI APIs
+    \item Developed custom Shopify quote forms
+  \end{itemize}\vspace{2pt}%
+}\\ \hline
+
+\end{tabular}
+\endgroup
+
+\header{Projects}
+
+\begingroup
+\setlength{\baselineskip}{7.5pt}
+\renewcommand{\arraystretch}{0.2}
+
+\begin{tabular}{p{0.08\textwidth}p{0.92\textwidth}}
+
+\textit{June 2025 -- Present} &
+\parbox[t]{\linewidth}{%
+  \textbf{Hardware Store Analyzer}
+  \begin{itemize}[noitemsep,topsep=0pt,leftmargin=1em]
+    \item Scalable full-stack app with React + TypeScript frontend and FastAPI backend
+    \item Deployed with Railway, HTTPS, CI/CD, secure env vars
+    \item PostgreSQL caching reduced redundant calls by 95\%
+  \end{itemize}\vspace{2pt}%
+}\\
+
+\textit{May 2025 -- Present} &
+\parbox[t]{\linewidth}{%
+  \textbf{Time Manager}
+  \begin{itemize}[noitemsep,topsep=0pt,leftmargin=1em]
+    \item Task manager with React + TypeScript frontend, FastAPI + PostgreSQL backend
+    \item AI-assisted input parsing with OpenAI API
+    \item Real-time CRUD and session-aware task planning
+  \end{itemize}\vspace{2pt}%
+}\\
+
+\textit{Sept 2022 -- May 2023} &
+\parbox[t]{\linewidth}{%
+  \textbf{Just Another Day} \\
+  \textit{Solo Unity3D game developed as thesis project}
+  \begin{itemize}[noitemsep,topsep=0pt,leftmargin=1em]
+    \item Built five puzzle systems using C\#, with responsive physics and UI logic
+  \end{itemize}\vspace{2pt}%
+}\\
+
+\textit{Jan 2023 -- May 2023} &
+\parbox[t]{\linewidth}{%
+  \textbf{Roblox Fashion Collaboration}\\
+  \textit{Parsons x Roblox Official Online Fashion Show}
+  \begin{itemize}[noitemsep,topsep=0pt,leftmargin=1em]
+    \item Converted and optimized 20+ 3D fashion assets for in-game avatars
+  \end{itemize}\vspace{2pt}%
+}\\
+
+\end{tabular}
+\endgroup
+
+\header{Education}
+
+\begin{itemize}
+  \item \textbf{MFA, Design and Technology} \dotfill \textit{2021 - 2023} \\
+  Parsons School of Design, NY
+  \item \textbf{MA, Design and Development of Digital Games} \dotfill \textit{2019 - 2021} \\
+  Columbia University, NY
+  \item \textbf{BS, Agricultural and Environmental Education} \dotfill \textit{2015 - 2019} \\
+  UC Davis, CA
+\end{itemize}
+
+\end{document}
