@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import LoginForm from './LoginForm';
 import LogoutButton from './LogoutButton';
+import PerplexitySection from './PerplexitySection';
 
 // API URL configuration for Railway deployment
 const API_URL = 'http://localhost:8000';
@@ -231,71 +232,29 @@ function App() {
           <div>
             <p>Welcome, <b>{user.full_name || user.username}</b>!</p>
             <LogoutButton onLogout={handleLogout} />
-
-            {/* Perplexity API Demo */}
-            {token && (
-              <div className="perplexity-section" style={{ width: '100%', maxWidth: 900, margin: '32px auto', background: '#23272f', borderRadius: 8, padding: 24, boxSizing: 'border-box', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>
-                <h2>Ask Perplexity (Sample Mode)</h2>
-                <div style={{ marginBottom: 12 }}>
-                  <button
-                    type="button"
-                    onClick={() => setUseSampleMode(m => !m)}
-                    style={{
-                      padding: '6px 18px',
-                      fontSize: '0.95rem',
-                      borderRadius: 4,
-                      border: 'none',
-                      background: useSampleMode ? '#61dafb' : '#888',
-                      color: useSampleMode ? '#222' : '#fff',
-                      fontWeight: 'bold',
-                      cursor: 'pointer',
-                      marginRight: 10
-                    }}
-                  >
-                    {useSampleMode ? 'Sample Mode' : 'AI API Mode'}
-                  </button>
-                  <span style={{ color: useSampleMode ? '#61dafb' : '#888', fontWeight: 'bold' }}>
-                    {useSampleMode ? 'Using sample JSON' : 'Calling Perplexity API'}
-                  </span>
-                </div>
-                <form onSubmit={handlePerplexity} style={{ marginBottom: 16 }}>
-                  <input
-                    type="text"
-                    value={userPrompt}
-                    onChange={e => setUserPrompt(e.target.value)}
-                    placeholder="Ask anything... (not used in sample mode)"
-                    style={{ width: 400, maxWidth: '80%', marginRight: 8, padding: 8, borderRadius: 4, border: '1px solid #ccc', fontSize: '1rem' }}
-                    disabled={isLoading}
-                  />
-                  <button type="submit" disabled={isLoading} style={{ padding: '8px 20px', fontSize: '1rem', borderRadius: 4, border: 'none', background: '#61dafb', color: '#222', fontWeight: 'bold', cursor: isLoading ? 'not-allowed' : 'pointer' }}>Ask</button>
-                </form>
-                <textarea
-                  value={sampleText}
-                  onChange={e => setSampleText(e.target.value)}
-                  placeholder="Paste your sample JSON result here..."
-                  rows={8}
-                  style={{ width: '100%', fontSize: '0.95rem', marginBottom: 12, borderRadius: 4, border: '1px solid #ccc', padding: 10, resize: 'vertical', background: '#181c22', color: '#fff' }}
-                />
-                {isLoading && <div style={{ color: '#aaa', marginTop: 8 }}>Loading...</div>}
-                {perplexityResponse && (
-                  <div style={{ background: '#f4f4f4', padding: 16, borderRadius: 6, marginTop: 16, width: '100%', overflowX: 'auto' }}>
-                    <strong style={{ fontSize: '1.1rem' }}>Response (Tables):</strong>
-                    <div style={{ margin: '12px 0' }}>
-                      {typeof perplexityResponse === 'object' && perplexityResponse !== null
-                        ? Object.entries(perplexityResponse).map(([section, value]) => (
-                            <div key={section} style={{ marginBottom: 24 }}>
-                              <div style={{ fontWeight: 'bold', marginBottom: 6, fontSize: '1rem', color: '#222' }}>{section}</div>
-                              {jsonToTable(value)}
-                            </div>
-                          ))
-                        : jsonToTable(perplexityResponse)}
-                    </div>
-                    <strong>Raw JSON:</strong>
-                    <pre style={{ fontSize: '0.85rem', maxHeight: 200, overflow: 'auto', background: '#222', color: '#fff', padding: 10, borderRadius: 4 }}>{JSON.stringify(perplexityResponse, null, 2)}</pre>
+            <PerplexitySection
+              token={token}
+              userPrompt={userPrompt}
+              setUserPrompt={setUserPrompt}
+              sampleText={sampleText}
+              setSampleText={setSampleText}
+              isLoading={isLoading}
+              useSampleMode={useSampleMode}
+              setUseSampleMode={setUseSampleMode}
+              handlePerplexity={handlePerplexity}
+              perplexityResponse={perplexityResponse}
+              error={error}
+              sampleResponse={sampleResponse}
+              displayJsonAsTable={jsonToTable => {
+                if (typeof jsonToTable !== 'object' || jsonToTable === null) return null;
+                return Object.entries(jsonToTable).map(([section, value]) => (
+                  <div key={section} style={{ marginBottom: 24 }}>
+                    <div style={{ fontWeight: 'bold', marginBottom: 6, fontSize: '1rem', color: '#222' }}>{section}</div>
+                    {jsonToTable(value)}
                   </div>
-                )}
-              </div>
-            )}
+                ));
+              }}
+            />
           </div>
         ) : (
           <div>
