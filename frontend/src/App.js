@@ -58,6 +58,21 @@ function jsonToTable(obj) {
   );
 }
 
+// Utility: Display JSON as a table (with cleaning)
+function displayJsonAsTable(json) {
+  if (typeof json !== 'object' || json === null) return null;
+  return (
+    <div>
+      {Object.entries(json).map(([section, value]) => (
+        <div key={section} style={{ marginBottom: 24 }}>
+          <div style={{ fontWeight: 'bold', marginBottom: 6, fontSize: '1rem', color: '#222' }}>{section}</div>
+          {jsonToTable(value)}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function App() {
   const [mode, setMode] = useState('login'); // 'login' or 'signup'
   const [username, setUsername] = useState('');
@@ -245,15 +260,7 @@ function App() {
               perplexityResponse={perplexityResponse}
               error={error}
               sampleResponse={sampleResponse}
-              displayJsonAsTable={jsonToTable => {
-                if (typeof jsonToTable !== 'object' || jsonToTable === null) return null;
-                return Object.entries(jsonToTable).map(([section, value]) => (
-                  <div key={section} style={{ marginBottom: 24 }}>
-                    <div style={{ fontWeight: 'bold', marginBottom: 6, fontSize: '1rem', color: '#222' }}>{section}</div>
-                    {jsonToTable(value)}
-                  </div>
-                ));
-              }}
+              displayJsonAsTable={displayJsonAsTable}
             />
           </div>
         ) : (
