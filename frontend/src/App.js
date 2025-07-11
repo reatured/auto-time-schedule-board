@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import LoginForm from './LoginForm';
+import LogoutButton from './LogoutButton';
 
 // API URL configuration for Railway deployment
 const API_URL = 'http://localhost:8000';
@@ -228,7 +230,7 @@ function App() {
         {user ? (
           <div>
             <p>Welcome, <b>{user.full_name || user.username}</b>!</p>
-            <button onClick={handleLogout}>Log out</button>
+            <LogoutButton onLogout={handleLogout} />
 
             {/* Perplexity API Demo */}
             {token && (
@@ -326,23 +328,15 @@ function App() {
                 <button type="submit">Sign Up</button>
               </form>
             ) : (
-              <form onSubmit={handleLogin} className="auth-form">
-                <input
-                  type="text"
-                  placeholder="Username"
-                  value={username}
-                  onChange={e => setUsername(e.target.value)}
-                  required
-                />
-                <input
-                  type="password"
-                  placeholder="Password"
-                  value={password}
-                  onChange={e => setPassword(e.target.value)}
-                  required
-                />
-                <button type="submit">Log In</button>
-              </form>
+              <LoginForm
+                username={username}
+                setUsername={setUsername}
+                password={password}
+                setPassword={setPassword}
+                onLogin={handleLogin}
+                error={error}
+                isLoading={isLoading}
+              />
             )}
             {error && <p style={{ color: 'salmon' }}>{error}</p>}
           </div>
